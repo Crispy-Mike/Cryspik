@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Крипто Обменник</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script> <!-- Важно! -->
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: var(--tg-theme-bg-color); color: var(--tg-theme-text-color); }
+        .container { display: flex; flex-direction: column; gap: 10px; }
+        button { padding: 10px; background: var(--tg-theme-button-color); color: var(--tg-theme-button-text-color); border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Криптообменник</h1>
+        <p>Добро пожаловать, <span id="user"></span>!</p>
+        <button onclick="buyCrypto()">💰 Купить</button>
+        <button onclick="sellCrypto()">💸 Продать</button>
+    </div>
+    <script>
+        // Инициализация Mini App
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand(); // Раскрыть на весь экран
+        
+        // Получаем данные пользователя из Telegram
+        const user = tg.initDataUnsafe?.user;
+        if (user) {
+            document.getElementById('user').textContent = user.first_name || 'Пользователь';
+        }
+
+        // Функции для кнопок
+        function buyCrypto() {
+            tg.sendData(JSON.stringify({ action: 'buy' })); // Отправляем данные в бота
+            tg.close(); // Закрыть окно после отправки
+        }
+        
+        function sellCrypto() {
+            tg.sendData(JSON.stringify({ action: 'sell' }));
+            tg.close();
+        }
+    </script>
+</body>
+</html>
